@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Url;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Requests\UrlRequest;
+use Str;
 
 class UrlController extends Controller
 {
@@ -14,18 +17,9 @@ class UrlController extends Controller
      */
     public function index()
     {
-        //
+        return Url::latest()->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,9 +27,12 @@ class UrlController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UrlRequest $request)
     {
-        //
+
+        Url::create($request->all());
+        return response('created', Response::HTTP_CREATED);
+        
     }
 
     /**
@@ -46,19 +43,9 @@ class UrlController extends Controller
      */
     public function show(Url $url)
     {
-        //
+        return $url;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Url  $url
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Url $url)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -80,6 +67,7 @@ class UrlController extends Controller
      */
     public function destroy(Url $url)
     {
-        //
+        $url->delete();
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }
